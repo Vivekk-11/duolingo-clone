@@ -23,7 +23,7 @@ export default function Home() {
           Learn, practice, and master new languages with Lingo.
         </h1>
 
-        <div className="lg:space-y-3">
+        <div className="space-y-3">
           <ClerkLoading>
             <Loader className="h-5 w-5 text-muted-foreground animate-spin" />
           </ClerkLoading>
