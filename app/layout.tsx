@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 
 const font = Nunito({ subsets: ["latin"] });
@@ -16,7 +17,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={font.className}>{children}</body>
+      <ClerkProvider>
+        <body className={font.className}>{children}</body>
+      </ClerkProvider>
     </html>
   );
 }
