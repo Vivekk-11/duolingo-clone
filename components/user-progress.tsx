@@ -3,9 +3,10 @@ import React from "react";
 import { Button } from "./ui/button";
 import Image from "next/image";
 import { InfinityIcon } from "lucide-react";
+import { courses } from "@/db/schema";
 
 interface Props {
-  activeCourse: { imageSrc: string; title: string };
+  activeCourse: typeof courses.$inferInsert;
   points: number;
   hearts: number;
   hasActiveSubscription: boolean;
