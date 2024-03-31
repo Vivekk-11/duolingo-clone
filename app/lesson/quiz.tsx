@@ -5,6 +5,7 @@ import { challengeOptions, challenges } from "@/db/schema";
 import Header from "./header";
 import QuestionBubble from "./question-bubble";
 import Challenge from "./challenge";
+import Footer from "./footer";
 
 interface Props {
   initialLessonId: number;
@@ -27,6 +28,8 @@ const Quiz = ({
   const [hearts, setHearts] = useState(initialHearts);
   const [percentage, setPercentage] = useState(initialPercentage);
   const [challenges] = useState(initialLessonChallenges);
+  const [selectionOption, setSelectionOption] = useState<number>();
+  const [status, setStatus] = useState<"none" | "wrong" | "correct">("none");
   const [activeIndex, setActiveIndex] = useState(() => {
     const uncompletedIndex = challenges.findIndex(
       (challenge) => !challenge.completed
@@ -34,6 +37,11 @@ const Quiz = ({
 
     return uncompletedIndex === -1 ? 0 : uncompletedIndex;
   });
+
+  const onSelect = (id: number) => {
+    if (status !== "none") return;
+    setSelectionOption(id);
+  };
 
   const currentChallenge = challenges[activeIndex];
   const title =
@@ -63,15 +71,16 @@ const Quiz = ({
               <Challenge
                 options={currentChallengeOptions}
                 disabled={false}
-                status="none"
+                status={status}
                 type={currentChallenge.type}
-                selectedOption={undefined}
-                onSelect={() => {}}
+                selectedOption={selectionOption}
+                onSelect={onSelect}
               />
             </div>
           </div>
         </div>
       </div>
+      <Footer disabled={!selectionOption} status={status} onCheck={() => {}} />
     </>
   );
 };

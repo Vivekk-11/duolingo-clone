@@ -1,7 +1,10 @@
+"use client";
+
 import { challenges } from "@/db/schema";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import React from "react";
+import React, { useCallback } from "react";
+import { useAudio, useKey } from "react-use";
 
 type Props = {
   id: number;
@@ -28,9 +31,19 @@ const Card = ({
   status,
   onClick,
 }: Props) => {
+  const [audio, _, controls] = useAudio({ src: audioSrc || "" });
+
+  const handleClick = useCallback(() => {
+    if (disabled) return;
+    onClick();
+    controls.play();
+  }, [disabled, onClick, controls]);
+
+  useKey(shortcut, handleClick, {}, [handleClick]);
+
   return (
     <div
-      onClick={() => {}}
+      onClick={handleClick}
       className={cn(
         "border-2 border-b-4 active:border-b-2 h-full rounded-xl hover:bg-black/5 p-4 lg:p-6 cursor-pointer",
         selected && "border-sky-300 bg-sky-100 hover:bg-sky-100",
@@ -44,6 +57,7 @@ const Card = ({
         type === "ASSIST" && "lg:p-3 w-full"
       )}
     >
+      {audio}
       {imageSrc && (
         <div className="relative aspect-square mb-4 w-full max-h-[80px] lg:max-h-[150px]">
           <Image src={imageSrc} alt={text} fill />
@@ -70,7 +84,9 @@ const Card = ({
           className={cn(
             "lg:w-[30px] lg:h-[30px] w-[20px] h-[20px] border-2 flex items-center justify-center rounded-2xl text-neutral-400 text-xs font-semibold lg:text-[15px]",
             selected && "border-sky-500 text-sky-500",
-            selected && status === "correct" && "border-green-500 text-green-500",
+            selected &&
+              status === "correct" &&
+              "border-green-500 text-green-500",
             selected && status === "wrong" && "border-rose-500 text-rose-500"
           )}
         >
