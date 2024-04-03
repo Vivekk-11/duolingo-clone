@@ -80,7 +80,6 @@ export const reduceHearts = async (challengeId: number) => {
   const lessonId = challenge.lessonId;
 
   if (currentUserProgress.hearts === 0) return { error: "hearts" };
-
   await db
     .update(userProgress)
     .set({

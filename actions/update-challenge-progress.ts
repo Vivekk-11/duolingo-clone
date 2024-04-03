@@ -34,10 +34,8 @@ export const updateChallengeProgress = async (challengeId: number) => {
   const isPractice = !!existingChallengeProgress;
 
   if (currentUserProgress.hearts === 0 && !isPractice) {
-    return { error: "Hearts!" };
+    return { error: "hearts" };
   }
-
-  console.log(isPractice, "let's see if it's practice");
 
   if (isPractice) {
     await db
