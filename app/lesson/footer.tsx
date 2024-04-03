@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 
 interface Props {
   disabled?: boolean;
-  lessonId?: boolean;
+  lessonId?: number;
   status: "wrong" | "correct" | "none" | "completed";
   onCheck: () => void;
 }
