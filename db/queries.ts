@@ -180,22 +180,23 @@ export const getLesson = cache(async (id?: number) => {
 export const getLessonPercentage = cache(async () => {
   const courseProgress = await getCourseProgress();
 
-  if (courseProgress?.activeLessonId) {
+  if (!courseProgress?.activeLessonId) {
     return 0;
   }
 
   const lesson = await getLesson(courseProgress?.activeLessonId);
 
   if (!lesson) {
+    console.log("let's see...OH NOOOOOOOO!!!!");
     return 0;
   }
 
   const completedChallenges = lesson.challenges.filter(
     (challenge) => challenge.completed
   );
-
-  const percentage =
-    Math.round(completedChallenges.length / lesson.challenges.length) * 100;
+  const percentage = Math.round(
+    (completedChallenges.length / lesson.challenges.length) * 100
+  );
 
   return percentage;
 });

@@ -8,6 +8,7 @@ import Challenge from "./challenge";
 import Footer from "./footer";
 import { updateChallengeProgress } from "@/actions/update-challenge-progress";
 import { toast } from "sonner";
+import { reduceHearts } from "@/actions/user-progress";
 
 interface Props {
   initialLessonId: number;
@@ -99,7 +100,21 @@ const Quiz = ({
           });
       });
     } else {
-      console.error("Incorrect option");
+      startTransition(() => {
+        reduceHearts(currentChallenge.id)
+          .then((response) => {
+            if (response?.error === "hearts") {
+              return;
+            }
+
+            setStatus("wrong");
+
+            if (!response?.error) {
+              setHearts((prev) => Math.max(prev - 1, 0));
+            }
+          })
+          .catch(() => toast.error("Something went wrong, please try again!"));
+      });
     }
   };
 
@@ -122,7 +137,7 @@ const Quiz = ({
               )}
               <Challenge
                 options={currentChallengeOptions}
-                disabled={false}
+                disabled={pending}
                 status={status}
                 type={currentChallenge.type}
                 selectedOption={selectedOption}
@@ -133,7 +148,7 @@ const Quiz = ({
         </div>
       </div>
       <Footer
-        disabled={!selectedOption}
+        disabled={pending || !selectedOption}
         status={status}
         onCheck={() => onContinue()}
       />
