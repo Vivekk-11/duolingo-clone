@@ -28,7 +28,7 @@ const Header = ({ hearts, percentage, hasActiveSubscription }: Props) => {
           className="mr-2"
         />
         {hasActiveSubscription ? (
-          <InfinityIcon className="stroke-[3] h-6 w-6" />
+          <InfinityIcon className="stroke-[3] h-6 w-6 shrink-0" />
         ) : (
           hearts
         )}

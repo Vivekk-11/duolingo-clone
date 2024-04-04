@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useTransition } from "react";
-import { challengeOptions, challenges } from "@/db/schema";
+import { challengeOptions, challenges, userSubscription } from "@/db/schema";
 import Header from "./header";
 import Confetti from "react-confetti";
 import QuestionBubble from "./question-bubble";
@@ -25,7 +25,11 @@ interface Props {
   })[];
   initialHearts: number;
   initialPercentage: number;
-  userSubscription: any;
+  userSubscription:
+    | (typeof userSubscription.$inferSelect & {
+        isActive: boolean;
+      })
+    | null;
 }
 
 const Quiz = ({
